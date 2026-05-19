@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You | ZIPI Innovation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=VT323&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00d4ff;
+            --dark: #050a14;
+            --darker: #020408;
+            --light: #e8f4f8;
+            --gray: #8a9bb0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--darker);
+            color: var(--light);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Pixel grid background */
+        .pixel-bg {
+            position: fixed;
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(0, 212, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 212, 255, 0.03) 1px, transparent 1px);
+            background-size: 20px 20px;
+            pointer-events: none;
+        }
+
+        /* Scan lines */
+        .scan-lines {
+            position: fixed;
+            inset: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 212, 255, 0.02) 2px,
+                rgba(0, 212, 255, 0.02) 4px
+            );
+            pointer-events: none;
+            animation: scanMove 8s linear infinite;
+        }
+
+        @keyframes scanMove {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(4px); }
+        }
+
+        /* Floating particles */
+        .particles {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--primary);
+            opacity: 0.3;
+            animation: floatParticle 6s ease-in-out infinite;
+        }
+
+        @keyframes floatParticle {
+            0%, 100% { transform: translateY(0) translateX(0); opacity: 0.3; }
+            50% { transform: translateY(-20px) translateX(10px); opacity: 0.6; }
+        }
+
+        /* Main container */
+        .container {
+            text-align: center;
+            z-index: 10;
+            padding: 2rem;
+            max-width: 600px;
+        }
+
+        /* Pixel smiley */
+        .pixel-smiley {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 2rem;
+            position: relative;
+            image-rendering: pixelated;
+            animation: smileyBounce 2s ease-in-out infinite;
+        }
+
+        @keyframes smileyBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .pixel-smiley svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 0 20px rgba(0, 212, 255, 0.4));
+        }
+
+        /* IOX Terminal Style Text */
+        .terminal-box {
+            border: 2px solid var(--primary);
+            background: rgba(0, 212, 255, 0.05);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.1), inset 0 0 30px rgba(0, 212, 255, 0.05);
+        }
+
+        .terminal-box::before {
+            content: 'IOX://SYSTEM/MESSAGE';
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background: var(--darker);
+            padding: 0 10px;
+            font-family: 'VT323', monospace;
+            font-size: 0.9rem;
+            color: var(--primary);
+            letter-spacing: 2px;
+        }
+
+        .terminal-box::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            animation: terminalGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes terminalGlow {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        h1 {
+            font-family: 'VT323', monospace;
+            font-size: 3rem;
+            color: var(--primary);
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+            margin-bottom: 1rem;
+            letter-spacing: 4px;
+        }
+
+        .status-line {
+            font-family: 'VT323', monospace;
+            font-size: 1.2rem;
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+            letter-spacing: 1px;
+        }
+
+        .status-line .blink {
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        p {
+            font-size: 1rem;
+            color: var(--gray);
+            line-height: 1.7;
+            margin-bottom: 2rem;
+        }
+
+        .btn-home {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            font-family: 'VT323', monospace;
+            font-size: 1.2rem;
+            letter-spacing: 3px;
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-home::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--primary);
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+
+        .btn-home:hover::before {
+            left: 0;
+        }
+
+        .btn-home:hover {
+            color: var(--darker);
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.4);
+        }
+
+        /* Corner decorations */
+        .corner {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--primary);
+        }
+
+        .corner-tl { top: -2px; left: -2px; border-right: none; border-bottom: none; }
+        .corner-tr { top: -2px; right: -2px; border-left: none; border-bottom: none; }
+        .corner-bl { bottom: -2px; left: -2px; border-right: none; border-top: none; }
+        .corner-br { bottom: -2px; right: -2px; border-left: none; border-top: none; }
+
+        /* Binary rain effect */
+        .binary-rain {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+            opacity: 0.05;
+        }
+
+        .binary-rain span {
+            position: absolute;
+            font-family: 'VT323', monospace;
+            font-size: 14px;
+            color: var(--primary);
+            animation: rainDrop 4s linear infinite;
+        }
+
+        @keyframes rainDrop {
+            0% { transform: translateY(-100vh); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(100vh); opacity: 0; }
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            .pixel-smiley { width: 80px; height: 80px; }
+            .terminal-box { padding: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="pixel-bg"></div>
+    <div class="scan-lines"></div>
+    <div class="binary-rain" id="binaryRain"></div>
+
+    <div class="particles">
+        <div class="particle" style="top:20%;left:10%;animation-delay:0s;"></div>
+        <div class="particle" style="top:60%;left:80%;animation-delay:1s;"></div>
+        <div class="particle" style="top:40%;left:30%;animation-delay:2s;"></div>
+        <div class="particle" style="top:80%;left:60%;animation-delay:3s;"></div>
+        <div class="particle" style="top:10%;left:70%;animation-delay:4s;"></div>
+    </div>
+
+    <div class="container">
+        <!-- Pixel Smiley -->
+        <div class="pixel-smiley">
+            <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Face -->
+                <rect x="1" y="1" width="14" height="14" fill="#00d4ff" opacity="0.1"/>
+                <rect x="2" y="2" width="12" height="12" fill="none" stroke="#00d4ff" stroke-width="0.5"/>
+                <!-- Eyes -->
+                <rect x="4" y="5" width="2" height="2" fill="#00d4ff"/>
+                <rect x="10" y="5" width="2" height="2" fill="#00d4ff"/>
+                <!-- Smile -->
+                <rect x="3" y="9" width="1" height="1" fill="#00d4ff"/>
+                <rect x="4" y="10" width="1" height="1" fill="#00d4ff"/>
+                <rect x="5" y="11" width="6" height="1" fill="#00d4ff"/>
+                <rect x="11" y="10" width="1" height="1" fill="#00d4ff"/>
+                <rect x="12" y="9" width="1" height="1" fill="#00d4ff"/>
+                <!-- Glow effect -->
+                <rect x="0" y="0" width="16" height="16" fill="url(#glow)" opacity="0.3"/>
+                <defs>
+                    <radialGradient id="glow" cx="8" cy="8" r="8">
+                        <stop offset="0%" stop-color="#00d4ff" stop-opacity="0.3"/>
+                        <stop offset="100%" stop-color="#00d4ff" stop-opacity="0"/>
+                    </radialGradient>
+                </defs>
+            </svg>
+        </div>
+
+        <div class="terminal-box">
+            <div class="corner corner-tl"></div>
+            <div class="corner corner-tr"></div>
+            <div class="corner corner-bl"></div>
+            <div class="corner corner-br"></div>
+
+            <h1>MESSAGE_SENT</h1>
+            <div class="status-line">
+                STATUS: <span style="color: #00d4ff;">SUCCESS</span> <span class="blink">_</span>
+            </div>
+            <p>
+                Transmission received. Our team at ZIPI Innovation has been notified.<br>
+                Expect a response within 24 hours via your registered channel.<br>
+                <span style="color: #00d4ff; font-family: 'VT323', monospace;">IOX://SECURE_CHANNEL/ACTIVE</span>
+            </p>
+        </div>
+
+        <a href="index.html" class="btn-home">[ RETURN_TO_BASE ]</a>
+    </div>
+
+    <script>
+        // Generate binary rain
+        const binaryRain = document.getElementById('binaryRain');
+        const chars = '01';
+
+        for (let i = 0; i < 30; i++) {
+            const span = document.createElement('span');
+            span.textContent = chars[Math.floor(Math.random() * chars.length)];
+            span.style.left = Math.random() * 100 + '%';
+            span.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            span.style.animationDelay = Math.random() * 4 + 's';
+            binaryRain.appendChild(span);
+        }
+    </script>
+</body>
+</html>
